@@ -109,11 +109,11 @@ namespace edge
             {
                 for(int j = 0; j < cols; j++)
                 {
-                    Console.Write($"{set[i,j]:0.0000} ");
+                    Console.Write($"{set[i,j]:0.0000} | ");
                 }
                 Console.WriteLine();
             }
-            Console.WriteLine("-----------------------------------------------------------------");
+            Console.WriteLine("----------------------------------------------------------------------------------");
         }
 
         static void Main(string[] args)
@@ -157,7 +157,7 @@ namespace edge
             DumpArray(t2, 9, 6);
             double[] ts = CalcShang(t2, 9, 6);
             foreach (double d in ts)
-                Console.Write($"{d:0.0000} ");
+                Console.Write($"{d:0.0000} | ");
             Console.ReadKey();
         }
     }
