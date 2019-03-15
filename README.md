@@ -4,4 +4,7 @@
 Build Console:[Appveyor - EdgeDeviceTrust](https://ci.appveyor.com/project/mo10/edgedevicetrust)
 ## Download
 [Github - EdgeDeviceTrust](https://github.com/mo10/EdgeDeviceTrust/releases)
+
+or
+
 [Appveyor - EdgeDeviceTrust](https://ci.appveyor.com/project/mo10/edgedevicetrust/build/artifacts)
