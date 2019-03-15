@@ -47,34 +47,61 @@ namespace edge
             return ps;
         }
         /// <summary>
-        /// 计算Ei
+        /// 求熵
         /// </summary>
-        /// <param name="ps">Pij的集合</param>
-        /// <param name="i">列</param>
-        /// <param name="j">行</param>
-        /// <param name="offset">列偏移量</param>
+        /// <param name="vs">数据集合</param>
+        /// <param name="cols">列数</param>
+        /// <param name="rows">行数</param>
         /// <returns>Ei</returns>
-        public static double CalcE(List<double> ps,int i,int j,int offset)
+        public static double[] CalcShang(double[,] vs,int cols,int rows)
         {
-            double PSUM = 0;
-            //求和
-            for(int ii=0; ii < i; ii++)
+            double[] H = new double[cols];
+            double K = 1 / Math.Log(rows);
+
+            for(int i = 0; i < cols; i++)
             {
-                double p = ps[offset+ii*j]; // 获取Pij 4是目前钦定
-                Console.Write($"{p:0.00} ");
-                if (p == 0)
-                    continue;// 如果Pij=0则跳过本次计算
-                else
-                    PSUM += p * Math.Log(p, Math.E);
+                double temp = 0.00;
+                for(int j = 0; j < rows; j++)
+                {
+                    double f = vs[j, i] / Sum(Transpose(vs, i, rows));
+                    if (f > 0)
+                        temp += f * Math.Log(f);
+                }
+                H[i] = (-K) * temp;
             }
-            Console.Write($"SUM={PSUM:00.00}\t");
-            //计算Ei
-            //double e = PSUM / (0.00 - Math.Pow(Math.Log(n, Math.E), -1));
-
-            double e = 0.00 - PSUM / Math.Log(4, Math.E);
-            return e;
+            return H;
         }
-
+        /// <summary>
+        /// 集合转置
+        /// </summary>
+        /// <param name="matrix">集合</param>
+        /// <param name="col">列定位</param>
+        /// <param name="rows">总行数</param>
+        /// <returns>返回指定列转置数组</returns>
+        public static double[] Transpose(double[,] matrix,int col,int rows)
+        {
+            List<double> arr = new List<double>();
+            for (int i = 0; i < rows; i++)
+            {
+                arr.Add(matrix[i, col]);
+            }
+            
+            return arr.ToArray();
+        }
+        /// <summary>
+        /// 集合求和
+        /// </summary>
+        /// <param name="set">集合</param>
+        /// <returns>和</returns>
+        public static double Sum(double[] set)
+        {
+            double sum = 0.00;
+            foreach(double num in set)
+            {
+                sum += num;
+            }
+            return sum;
+        }
         static void Main(string[] args)
         {
             int deviceCount = 1000;
@@ -83,27 +110,39 @@ namespace edge
             //通过 DeviceTrustSet 计算 Pij 集合
             List<double> PijSet = CalcPSet(DeviceTrustSet);
 
-            double[] t =
+            double[,] t =
             {
-                1.00, 0.00, 1.00, 0.00,0.50,1.00,1.00,1.00,1.00,
-                1.00, 1.00, 0.00, 1.00,0.50,1.00,1.00,1.00,1.00,
-                0.00, 1.00, 0.33, 1.00,0.50,1.00,1.00,1.00,1.00,
-                1.00, 1.00, 0.00, 1.00,0.50,1.00,0.87,1.00,1.00,
-                1.00, 0.00, 1.00, 1.00,1.00,0.00,1.00,1.00,0.00,
-                1.00, 1.00, 1.00, 1.00,0.50,1.00,1.00,0.00,1.00,
-                1.00, 1.00, 0.00, 1.00,0.50,1.00,0.00,1.00,1.00,
-                0.50, 1.00, 0.33, 1.00,1.00,1.00,1.00,1.00,1.00,
-                1.00, 1.00, 0.67, 1.00,0.00,1.00,1.00,1.00,1.00,
-                1.00, 0.00, 1.00, 1.00,1.00,1.00,1.00,1.00,1.00,
-                1.00, 1.00, 0.67, 1.00,0.50,1.00,1.00,1.00,1.00,
+                {1.00, 0.00, 1.00, 0.00,0.50,1.00,1.00,1.00,1.00},
+                {1.00, 1.00, 0.00, 1.00,0.50,1.00,1.00,1.00,1.00},
+                {0.00, 1.00, 0.33, 1.00,0.50,1.00,1.00,1.00,1.00},
+                {1.00, 1.00, 0.00, 1.00,0.50,1.00,0.87,1.00,1.00},
+                {1.00, 0.00, 1.00, 1.00,1.00,0.00,1.00,1.00,0.00},
+                {1.00, 1.00, 1.00, 1.00,0.50,1.00,1.00,0.00,1.00},
+                {1.00, 1.00, 0.00, 1.00,0.50,1.00,0.00,1.00,1.00},
+                {0.50, 1.00, 0.33, 1.00,1.00,1.00,1.00,1.00,1.00},
+                {1.00, 1.00, 0.67, 1.00,0.00,1.00,1.00,1.00,1.00},
+                {1.00, 0.00, 1.00, 1.00,1.00,1.00,1.00,1.00,1.00},
+                {1.00, 1.00, 0.67, 1.00,0.50,1.00,1.00,1.00,1.00},
             };
-            List<double> ts = new List<double>(t);
-            for(int i = 0; i < 9; i++)
+            double[,] t2 =
             {
-                var a = CalcE(ts, 11,9,i);
-                Console.WriteLine($"E{i}={a:00.00} ");
-            }
-            
+                {0.4922, 0.4516, 0.5159, 0.1294, 0.6565, 0.3395, 0.1083, 0.6306, 0.2860},
+                {0.4442, 0.3552, 0.6315, 0.1410, 0.5303, 0.6156, 0.2567, 0.5291, 0.6142},
+                {0.5078, 0.0088, 0.1901, 0.5485, 0.2547, 0.1209, 0.3843, 0.1162, 0.0270},
+                {0.1814, 0.2505, 0.2671, 0.2392, 0.3224, 0.1732, 0.1350, 0.3689, 0.1894},
+                {0.3020, 0.5002, 0.3686, 0.4515, 0.3435, 0.2784, 0.0015, 0.3694, 0.3858},
+                {0.2170, 0.5484, 0.3217, 0.4128, 0.2662, 0.3844, 0.6157, 0.3063, 0.3520},
+
+            };
+            //List<double> ts = new List<double>(t);
+            //for(int i = 0; i < 9; i++)
+            //{
+            //    var a = CalcE(ts, 11,9,i);
+            //    Console.WriteLine($"E{i}={a:00.00} ");
+            //}
+            double[] ts = CalcShang(t2, 9, 6);
+            foreach (double d in ts)
+                Console.Write($"{d:00.0000} ");
             Console.ReadKey();
         }
     }
