@@ -102,6 +102,20 @@ namespace edge
             }
             return sum;
         }
+        public static void DumpArray<T>(T[,] set,int cols, int rows)
+        {
+            Console.WriteLine("当前数据集");
+            for (int i = 0; i < rows; i++)
+            {
+                for(int j = 0; j < cols; j++)
+                {
+                    Console.Write($"{set[i,j]:0.0000} ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine("-----------------------------------------------------------------");
+        }
+
         static void Main(string[] args)
         {
             int deviceCount = 1000;
@@ -140,9 +154,10 @@ namespace edge
             //    var a = CalcE(ts, 11,9,i);
             //    Console.WriteLine($"E{i}={a:00.00} ");
             //}
+            DumpArray(t2, 9, 6);
             double[] ts = CalcShang(t2, 9, 6);
             foreach (double d in ts)
-                Console.Write($"{d:00.0000} ");
+                Console.Write($"{d:0.0000} ");
             Console.ReadKey();
         }
     }
