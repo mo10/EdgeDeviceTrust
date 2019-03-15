@@ -1,5 +1,5 @@
 # Edge Device Trust
-[![Build status](https://ci.appveyor.com/api/projects/status/b2wcrm7dno8iai6j?svg=true)
+[![Build status](https://ci.appveyor.com/api/projects/status/b2wcrm7dno8iai6j/branch/master?svg=true)](https://ci.appveyor.com/project/mo10/edgedevicetrust/branch/master)
 ## Status
 Build Console:[Appveyor - EdgeDeviceTrust](https://ci.appveyor.com/project/mo10/edgedevicetrust)
 ## Download
