@@ -1,0 +1,15 @@
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+platform: Any CPU
+build:
+  verbosity: minimal
+artifacts:
+- path: edge/bin/Release/
+  name: Release
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: UJvLV2sU0F+95nz3pnGyD1qmfln+rWu2PqcImHFbLdHi8N0BbiLyhVUO+t4BZTCl
+  artifact: edge\bin\Release.zip
+  prerelease: true
