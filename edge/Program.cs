@@ -57,17 +57,20 @@ namespace edge
         {
             double[] H = new double[cols];
             double K = 1 / Math.Log(rows);
-
+            Console.WriteLine($"K={K}");
             for(int i = 0; i < cols; i++)
             {
                 double temp = 0.00;
+                Console.Write($"Pij{i+1}={{");
                 for(int j = 0; j < rows; j++)
                 {
                     double f = vs[j, i] / Sum(Transpose(vs, i, rows));
+                    Console.Write($"{f:00.0000}, ");
                     if (f > 0)
                         temp += f * Math.Log(f);
                 }
                 H[i] = (-K) * temp;
+                Console.WriteLine($"}} ΣPijlnPij={temp} E{i+1}={H[i]}");
             }
             return H;
         }
@@ -84,8 +87,9 @@ namespace edge
             for (int i = 0; i < rows; i++)
             {
                 arr.Add(matrix[i, col]);
+                //Console.Write($"{i}: {matrix[i, col]:0.0000} ");
             }
-            
+            //Console.WriteLine();
             return arr.ToArray();
         }
         /// <summary>
