@@ -58,21 +58,46 @@ namespace edge
             double[] H = new double[cols];
             double K = 1 / Math.Log(rows);
             Console.WriteLine($"K={K}");
+
+            List<double[]> fs = new List<double[]>();
+            
             for(int i = 0; i < cols; i++)
             {
                 double temp = 0.00;
-                Console.Write($"Pij{i+1}={{");
-                for(int j = 0; j < rows; j++)
+                for (int j = 0; j < rows; j++)
                 {
                     double f = vs[j, i] / Sum(Transpose(vs, i, rows));
-                    Console.Write($"{f:00.0000}, ");
                     if (f > 0)
                         temp += f * Math.Log(f);
                 }
                 H[i] = (-K) * temp;
-                Console.WriteLine($"}} ΣPijlnPij={temp} E{i+1}={H[i]}");
             }
-            return H;
+            //计算熵权
+            double sum_E = 0.00;
+            sum_E = Sum(H);//ΣEi
+
+            double[] W = new double[cols];
+            for (int i= 0; i < cols; i++){
+                double w = (1.0 - H[i]) / (cols - sum_E);
+                W[i] = w;
+            }
+
+            //计算F to D feedback trust
+            double[,] DW = new double[rows, cols];
+            for (int i = 0; i < rows; i++)
+            {
+                for(int j = 0; j < cols; j++)
+                {
+                    DW[i, j] = vs[i, j] * W[j];
+                }
+            }
+
+            double[] Fbk = new double[cols];
+            for (int j = 0; j < cols; j++)
+            {
+                Fbk[j] = Sum(Transpose(DW, j, rows));
+            }
+            return Fbk;
         }
         /// <summary>
         /// 集合转置
@@ -87,9 +112,7 @@ namespace edge
             for (int i = 0; i < rows; i++)
             {
                 arr.Add(matrix[i, col]);
-                //Console.Write($"{i}: {matrix[i, col]:0.0000} ");
             }
-            //Console.WriteLine();
             return arr.ToArray();
         }
         /// <summary>
@@ -158,8 +181,9 @@ namespace edge
             //    var a = CalcE(ts, 11,9,i);
             //    Console.WriteLine($"E{i}={a:00.00} ");
             //}
-            DumpArray(t2, 9, 6);
-            double[] ts = CalcShang(t2, 9, 6);
+            DumpArray(t, 9, 11);
+            double[] ts = CalcShang(t, 9, 11);
+            Console.WriteLine($" F-to-D feedback trust score:");
             foreach (double d in ts)
                 Console.Write($"{d:0.0000} | ");
             Console.ReadKey();
