@@ -6,14 +6,22 @@ using System.Threading.Tasks;
 
 namespace edge
 {
+    
     internal class Device
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public DeviceType Type { get; set; }
+        /// <summary>
+        /// the probability of rating honestly
+        /// </summary>
+        public double RHonest { get; set; }
+        /// <summary>
+        /// the probability of honestly providing good file
+        /// </summary>
+        public double PHonest { get; set; }
         public Device(int id,string name)
         {
             Id = id;
-            Name = name;
         }
         public override bool Equals(object obj)
         {
