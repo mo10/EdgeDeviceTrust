@@ -1,0 +1,54 @@
+2018.9.10
+network.py  62
+sim.py      226
+globals.py  24
+312
+
+2018.9.11
+network.py  53
+sim.py      278
+globals.py  25
+user.py     85
+file.py     10
+451
+
+2018.9.12
+network.py  84
+sim.py      287
+globals.py  26
+user.py     129
+file.py     10
+relation.py 26
+562
+
+2018.9.13
+network.py  74
+sim.py      308
+globals.py  26
+user.py     144
+file.py     10
+relation.py 26
+gen.py      102
+690
+
+2018.9.14
+network.py  74
+sim.py      340
+globals.py  28
+user.py     153
+file.py     10
+relation.py 26
+gen.py      111
+714
+
+2018.9.16
+network.py  75
+sim.py      352
+globals.py  28
+user.py     167
+file.py     10
+relation.py 26
+gen.py      121
+779
+
+
